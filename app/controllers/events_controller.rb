@@ -58,7 +58,7 @@ end
 def destroy
   @event.destroy
   flash[:alert] = "刪除成功"
-  redirect_to event_path
+  redirect_to events_path # events#index
 end
 
 
