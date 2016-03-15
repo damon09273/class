@@ -1,4 +1,8 @@
-
+<p>Category: <%= @event.category.name %><p>
+<%= form_for @attendee, :url => event_attendees_path(@event) do |f| %>
+   <%= f.text_field :name %>
+   <%= f.submit %>
+<% end %>
 
 <%= @event.name %>
 <%= simple_format(@event.description) %>

@@ -8,10 +8,12 @@
  	  <%= event.name %>
  	  </td>
  	  <td>
+ 	  <%= link_to 'attendees', event_attendees_path(event) %>
  	  <%= link_to 'Show', event_path(event), :class => "btn btn-primary" %>
  	  <%= link_to 'Get JSON', event_path(event, :format => :json), :class => "btn btn-success" %>
  	  <%= link_to 'Edit', edit_event_path(event), :class => "btn btn-success" %>
  	  <%= link_to 'Delete',event_path(event), :method => :delete, :class => "btn btn-danger" %>
+ 	  <%= link_to 'location', event_location_path(event) %>
  	  </td>
  </tr>
 <% end %>

@@ -37,8 +37,8 @@ def create
 	else
     	render :action => :new
   end
-
 end
+
 
 def edit
 end
@@ -70,6 +70,10 @@ end
 
 def set_event
   @event = Event.find(params[:id])
+end
+
+def event_params
+  params.require(:event).permit(:name, :description, :category_id)
 end
 
 

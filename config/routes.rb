@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
     resources :events
     resources :welcome
+    resources :events do
+      resources :attendees, :controller => 'event_attendees'
+    end
+
+    resources :events do
+    resource :location, :controller => 'event_locations'
+    end
+    
     get "welcome/say_hello" => "welcome#say"
     get "welcome" => "welcome#index"
   # The priority is based upon order of creation: first created -> highest priority.
