@@ -1,3 +1,6 @@
+
+<%= f.collection_check_boxes(:group_ids, Group.all, :id, :name) %>
+
 <%= f.fields_for :location do |location_form| %>
 <p>
 <%= location_form.label :name, "Location Name" %>

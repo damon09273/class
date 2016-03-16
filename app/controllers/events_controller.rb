@@ -87,18 +87,16 @@ def destroy
 end
 
 
-private
+# prvite以下的ation就不放到routing裡面執行
+private     
 def event_params
-	params.require(:event).permit(:name, :description)
+  # require 不是一般的hash，有加密作用;permit後面的是允許存取的欄位。
+	params.require(:event).permit(:name, :description, :category_id, :location_attributes => [:id, :name, :_destroy], :group_ids => [])
 end
 
 
 def set_event
   @event = Event.find(params[:id])
-end
-
-def event_params
-  params.require(:event).permit(:name, :description, :category_id, :location_attributes => [:id, :name, :_destroy])
 end
 
 

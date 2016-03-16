@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     resource :location, :controller => 'event_locations'
     end
     
+    # 使用者介面
+    namespace :admin do
+    resources :events
+    end
 
     
     get "welcome/say_hello" => "welcome#say"
