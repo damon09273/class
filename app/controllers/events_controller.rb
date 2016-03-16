@@ -3,9 +3,12 @@ class EventsController < ApplicationController
 before_action :set_event, :only => [ :show, :edit, :update, :destroy]
 
 def index
-  @events = Event.page(params[:page]).per(5)
-  Rails.logger.debug("xxxxx: #{@events.count}")
-
+  if params[:eventid]
+    @events = Event.find(params[:eventid])
+  else
+    @event = Event.new
+  end
+  prepare_variable_for_index_template
   respond_to do |format|
     format.html # index.html.erb
     format.xml { render :xml => @events.to_xml }
@@ -14,8 +17,30 @@ def index
   end
 end
 
+
+
+
+def bulk_update
+  ids = Array(params[:ids])
+  events = ids.map{|i| Event.find_by_id(i)}.compact
+
+  if params[:commit] == "Publish"
+    events.each{|e| e.update(:status => "published")}
+  elsif params[:commit] == "Delete"
+    events.each{|e| e.destroy}
+  end
+ redirect_to :back
+end
+    
+
+
+def latest
+  @events = Event.order("id DESC").limit(3)
+end
+
 def show 
  	@page_title = @event.name
+  @attendee = Attendee.new
   respond_to do |format|
     format.html { @page_title = @event.name } # show.html.erb
     format.xml # show.xml.builder
@@ -73,7 +98,18 @@ def set_event
 end
 
 def event_params
-  params.require(:event).permit(:name, :description, :category_id)
+  params.require(:event).permit(:name, :description, :category_id, :location_attributes => [:id, :name, :_destroy])
+end
+
+
+
+def prepare_variable_for_index_template
+  if params[:keyword]
+    @events = Event.where(["name like?", "%#{params[:keyword]}%"])
+  else
+    @events = Event.all
+  end
+  @events = @events.page(params[:page]).per(5)
 end
 
 

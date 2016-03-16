@@ -1,10 +1,22 @@
 <h1>Events list</h1>
-<table class=" ">
-<ul>
+
+<p>
+<%= link_to 'Latest events', latest_events_path %>		
+</p>
+
+<%= form_tag events_path, :method => :get do %>
+  <%= text_field_tag "keyword" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<%= form_tag bulk_update_events_path do %>
+<table class="table">
+
 <% @events.each do |event| %>
 	
 	<tr>
 		<td>
+		<%= check_box_tag "ids[]", event.id, false %>
  	  <%= event.name %>
  	  </td>
  	  <td>
@@ -14,12 +26,20 @@
  	  <%= link_to 'Edit', edit_event_path(event), :class => "btn btn-success" %>
  	  <%= link_to 'Delete',event_path(event), :method => :delete, :class => "btn btn-danger" %>
  	  <%= link_to 'location', event_location_path(event) %>
+
  	  </td>
  </tr>
+
+
 <% end %>
+<%= submit_tag "Delete" %>
+<%= submit_tag "Publish" %>
 </table>
 
-</ul>
+<% end %>
+
+
+
 <%= link_to 'New Event', new_event_path %>
 
 <%= paginate @events %>

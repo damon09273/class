@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
-    resources :events
-    resources :welcome
     resources :events do
       resources :attendees, :controller => 'event_attendees'
+
+      collection do
+      get :latest
+      post :bulk_update
+      end
     end
 
     resources :events do
     resource :location, :controller => 'event_locations'
     end
+    
+
     
     get "welcome/say_hello" => "welcome#say"
     get "welcome" => "welcome#index"
